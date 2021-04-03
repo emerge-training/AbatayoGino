@@ -1,0 +1,55 @@
+import jk.widget.common
+
+class #widget #main:
+
+ui LayerWidget
+{
+    
+	CanvasWidget {
+		color = Color.forString("#FFFFFF")
+	}
+	VerticalBoxWidget {
+		margin = 0
+		spacing = 0
+		MenuBarWidget menu {
+		}
+
+        ImageWidget image {
+			imageResource = "sample1"
+			imageWidth = context.getHeightValue("950px")
+			imageHeight = context.getHeightValue("720px")
+			imageScaleMethod = ImageWidget.FIT
+		}
+	}
+    
+		
+		
+	
+    
+}
+
+func initializeWidget override
+{
+	base.initializeWidget()
+	var file = menu.addMenu("Menu")
+	file.addEntry("Login", func{
+		NavigationWidget.switchToContainer(this, new Login(context))
+
+	})
+	file.addEntry("Save", func {
+		PRINT "Save"
+	})
+	file.addEntry("Exit", func {
+		PRINT "Exit"
+	})
+	var edit = menu.addMenu("Edit")
+	edit.addEntry("Cut", func {
+		PRINT "Cut"
+	})
+	edit.addEntry("Copy", func {
+		PRINT "Copy"
+	})
+	edit.addEntry("Paste", func {
+		PRINT "Paste"
+	})
+}
