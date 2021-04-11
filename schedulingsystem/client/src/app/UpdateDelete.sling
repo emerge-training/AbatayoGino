@@ -1,0 +1,106 @@
+import jk.widget
+import jk.widget.common
+import jk.widget.datagrid
+
+class #widget:
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.instance("#e8e8e8")
+	}
+	VerticalScrollerWidget {
+		AlignWidget {
+			marginLeft = 400
+			marginRight = 400
+			VerticalBoxWidget vbox : 0.5, 0.5, true {
+				margin = context.getHeightValue("5000um")
+				spacing = context.getHeightValue("2000um")
+				LabelWidget {
+					text = "Riders Schedule"
+					textColor = Color.instance("#2A9D8F")
+					fontSize = context.getHeightValue("4mm")
+					textAlign = LabelWidget.ALIGN_LEFT
+					fontBold = true
+				}
+                TextInputWidget id {
+					type = TextInputWidget.TYPE_INTEGER
+					placeholder = "ID "
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget fname {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "First Name"
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget mname {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Middle Name"
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget lname {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Last Name"
+                    maxLength = 1
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget time {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Time"
+                    backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget date {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Date"
+                    backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+               
+    
+			}
+		}
+	}
+}
+func initializeWidget override {
+    var viewbtn = ButtonWidget.forText(context, "View", func {
+		
+	})
+    var updatebtn = ButtonWidget.forText(context, "Update", func {
+		
+	})
+    var deletebtn = ButtonWidget.forText(context, "Delete", func {
+		
+	})
+    var backbtn = ButtonWidget.forText(context, "Back", func {
+        NavigationWidget.switchToContainer(this, new AdminForm(context))
+		
+	})
+	viewbtn.setWidgetBackgroundColor(Color.instance("#264653"))
+	viewbtn.setWidgetTextColor(Color.white())
+	viewbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+    updatebtn.setWidgetBackgroundColor(Color.instance("#264653"))
+	updatebtn.setWidgetTextColor(Color.white())
+	updatebtn.setWidgetFontSize(context.getHeightValue("4mm"))
+    deletebtn.setWidgetBackgroundColor(Color.instance("#264653"))
+	deletebtn.setWidgetTextColor(Color.white())
+	deletebtn.setWidgetFontSize(context.getHeightValue("4mm"))
+    backbtn.setWidgetBackgroundColor(Color.instance("#264653"))
+	backbtn.setWidgetTextColor(Color.white())
+	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+    vbox.addWidget(viewbtn)
+	vbox.addWidget(updatebtn)
+    vbox.addWidget(deletebtn)
+    vbox.addWidget(backbtn)
+
+}

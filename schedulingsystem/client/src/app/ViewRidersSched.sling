@@ -1,0 +1,63 @@
+import jk.widget.common
+import jk.widget.datagrid
+
+class #widget:
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.forString("#CCCCCC")
+	}
+	VerticalBoxWidget {
+		margin = context.getHeightValue("1mm")
+		spacing = context.getHeightValue("1mm")
+		DataGridWidget grid : 1.0 {
+		}
+        LabelWidget {
+					text = "RIDERS SCHEDULE"
+					textColor = Color.black()
+					fontSize = context.getHeightValue("10mm")
+					textAlign = LabelWidget.ALIGN_CENTER
+					fontBold = true
+				}
+		ButtonWidget {
+			text = "View"
+			clickHandler = func {
+				PRINT "CLICKED!"
+			}
+		}
+        ButtonWidget {
+			text = "Back To Riders Form"
+			clickHandler = func {
+			NavigationWidget.switchToContainer(this, new RidersForm(context))
+
+			}
+		}
+	}
+}
+
+func initializeWidget override
+{
+	base.initializeWidget()
+	grid.addColumn("Firstname", "fname", 1.0)
+	grid.addColumn("MiddleName", "mname", 1.0)
+    grid.addColumn("LastName", "lname", 1.0)
+    grid.addColumn("Time", "time", 1.0)
+    grid.addColumn("Date", "date", 1.0)
+	grid.addWidgetHeaderRow()
+	grid.addRow([ " ", " ", " ", " ", " " ], func {
+		context.showMessageDialog("hello", "First one selected")
+	}, func {
+		context.showMessageDialog("hello", "First one double clicked")
+	})
+    grid.addRow([ "", "", "", "", "" ], func {
+		context.showMessageDialog("hello", "First one selected")
+	}, func {
+		context.showMessageDialog("hello", "First one double clicked")
+	})
+	grid.addRow([ "", "", "", "", "" ], func {
+		context.showMessageDialog("hello", "First one selected")
+	}, func {
+		context.showMessageDialog("hello", "First one double clicked")
+	})
+}

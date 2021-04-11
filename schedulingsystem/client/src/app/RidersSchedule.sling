@@ -1,0 +1,98 @@
+import jk.widget
+import jk.widget.common
+import jk.widget.datagrid
+
+class #widget:
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.instance("#e8e8e8")
+	}
+	
+	VerticalBoxWidget {
+		spacing = context.getHeightValue("5mm")
+		ImageWidget image {
+			imageResource = "sample1"
+			imageWidth = context.getHeightValue("1150px")
+			imageHeight = context.getHeightValue("820px")
+			imageScaleMethod = ImageWidget.FIT
+		}
+	}
+		AlignWidget {
+			marginLeft = 400
+			marginRight = 400
+			VerticalBoxWidget vbox : 0.5, 0.5, true {
+				margin = context.getHeightValue("5000um")
+				spacing = context.getHeightValue("2000um")
+				LabelWidget {
+					text = "Riders schedule"
+					textColor = Color.instance("#2A9D8F")
+					fontSize = context.getHeightValue("4mm")
+					textAlign = LabelWidget.ALIGN_LEFT
+					fontBold = true
+				}
+				TextInputWidget id {
+					type = TextInputWidget.TYPE_INTEGER
+					placeholder = "ID "
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget firstname {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "First Name"
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget middlename {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Middle Name"
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget lastname {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Last Name"
+                    maxLength = 1
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                 TextInputWidget time {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Time"
+                    maxLength = 1
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+
+                LabelWidget checkinlbl {
+                    text = "Date"
+                }
+				DateSelectorWidget checkin {
+                }
+			}
+		}
+}
+
+func initializeWidget override {
+    var savebtn = ButtonWidget.forText(context, "Schedule Now", func {
+		
+	})
+    var backbtn = ButtonWidget.forText(context, "Back to Admin", func {
+		NavigationWidget.switchToContainer(this, new AdminForm(context))
+
+	})
+	savebtn.setWidgetBackgroundColor(Color.instance("#264653"))
+	savebtn.setWidgetTextColor(Color.white())
+	savebtn.setWidgetFontSize(context.getHeightValue("4mm"))
+    backbtn.setWidgetBackgroundColor(Color.instance("#264653"))
+	backbtn.setWidgetTextColor(Color.white())
+	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+    vbox.addWidget(savebtn)
+	vbox.addWidget(backbtn)
+}

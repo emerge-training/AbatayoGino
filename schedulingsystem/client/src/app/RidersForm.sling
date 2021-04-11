@@ -1,0 +1,66 @@
+import jk.widget
+import jk.widget.common
+
+class #widget:
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.instance("#949796")
+	}
+		AlignWidget {
+            
+	VerticalBoxWidget {
+		spacing = context.getHeightValue("5mm")
+		ImageWidget image {
+			imageResource = "sample1"
+			imageWidth = context.getHeightValue("1150px")
+			imageHeight = context.getHeightValue("820px")
+			imageScaleMethod = ImageWidget.FIT
+		}
+		
+	}
+			VerticalBoxWidget vbox {
+				margin = context.getHeightValue("5000um")
+				spacing = context.getHeightValue("2000um")
+				LabelWidget {
+					text = "RIDERS FORM"
+					textColor = Color.black()
+					fontSize = context.getHeightValue("5mm")
+					textAlign = LabelWidget.ALIGN_CENTER
+					fontBold = true
+			}
+			}
+		}	
+}
+
+func initializeWidget override
+{
+	base.initializeWidget()
+    var addfeedbackbtn = ButtonWidget.forText(context, "FeedBack", func {
+		NavigationWidget.switchToContainer(this, new FeedBackForm(context))
+
+			
+	})
+	 var viewbtn = ButtonWidget.forText(context, "View Schedule", func {
+		 NavigationWidget.switchToContainer(this, new ViewRidersSched(context))	
+			
+	})
+	 var backbtn = ButtonWidget.forText(context, "Back To Menu", func {
+		 NavigationWidget.switchToContainer(this, new HomeWidget(context))	
+			
+	})
+	addfeedbackbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	addfeedbackbtn.setWidgetTextColor(Color.white())
+	addfeedbackbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	viewbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	viewbtn.setWidgetTextColor(Color.white())
+	viewbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetTextColor(Color.white())
+	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	vbox.addWidget(viewbtn)
+    vbox.addWidget(addfeedbackbtn)
+	vbox.addWidget(backbtn)
+	
+}

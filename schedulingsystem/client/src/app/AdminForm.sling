@@ -1,0 +1,76 @@
+import jk.widget
+import jk.widget.common
+
+class #widget:
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.instance("#949796")
+	}
+		AlignWidget {
+            
+	VerticalBoxWidget {
+		spacing = context.getHeightValue("5mm")
+		ImageWidget image {
+			imageResource = "sample1"
+			imageWidth = context.getHeightValue("1150px")
+			imageHeight = context.getHeightValue("820px")
+			imageScaleMethod = ImageWidget.FIT
+		}
+		
+	}
+			VerticalBoxWidget vbox {
+				margin = context.getHeightValue("5000um")
+				spacing = context.getHeightValue("2000um")
+				LabelWidget {
+					text = "ADMIN FORM"
+					textColor = Color.black()
+					fontSize = context.getHeightValue("5mm")
+					textAlign = LabelWidget.ALIGN_CENTER
+					fontBold = true
+			}
+			}
+		}	
+}
+
+func initializeWidget override
+{
+	base.initializeWidget()
+    var addschedulebtn = ButtonWidget.forText(context, "Riders Schedule", func {
+		NavigationWidget.switchToContainer(this, new RidersSchedule(context))
+
+			
+	})
+	 var viewbtn = ButtonWidget.forText(context, "View FeedBack", func {	
+		NavigationWidget.switchToContainer(this, new ViewFeedBack(context))	
+	})
+     var crudbtn = ButtonWidget.forText(context, "Update\Delete", func {
+		 NavigationWidget.switchToContainer(this, new UpdateDelete(context))	
+		
+
+	})
+	 var backbtn = ButtonWidget.forText(context, "Back To Menu", func {	
+		NavigationWidget.switchToContainer(this, new HomeWidget(context))
+
+
+	})
+
+	addschedulebtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	addschedulebtn.setWidgetTextColor(Color.white())
+	addschedulebtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	viewbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	viewbtn.setWidgetTextColor(Color.white())
+	viewbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+    crudbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	crudbtn.setWidgetTextColor(Color.white())
+	crudbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetTextColor(Color.white())
+	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	vbox.addWidget(addschedulebtn)
+	vbox.addWidget(viewbtn)
+    vbox.addWidget(crudbtn)
+	vbox.addWidget(backbtn)
+	
+}

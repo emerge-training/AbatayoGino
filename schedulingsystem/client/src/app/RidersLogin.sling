@@ -1,0 +1,88 @@
+import jk.widget
+import jk.widget.common
+
+class #widget:
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.instance("#949796")
+	}
+		AlignWidget {
+            
+	VerticalBoxWidget {
+		spacing = context.getHeightValue("5mm")
+		ImageWidget image {
+			imageResource = "sample1"
+			imageWidth = context.getHeightValue("1150px")
+			imageHeight = context.getHeightValue("820px")
+			imageScaleMethod = ImageWidget.FIT
+		}
+		
+	}
+			VerticalBoxWidget vbox {
+				margin = context.getHeightValue("5000um")
+				spacing = context.getHeightValue("2000um")
+				LabelWidget {
+					text = "RIDERS LOGIN FORM"
+					textColor = Color.black()
+					fontSize = context.getHeightValue("5mm")
+					textAlign = LabelWidget.ALIGN_CENTER
+					fontBold = true
+			}
+			LabelWidget {
+				text = "Username"
+				textColor = Color.black()
+				fontFamily = "Raleway-Regular"
+				fontSize = context.getHeightValue("5mm")
+			}
+			TextInputWidget username {
+				id #common = "username"
+				type = TextInputWidget.TYPE_NONASSISTED
+				backgroundColor = Color.white()
+				fontSize = context.getHeightValue("5mm")
+				fontFamily = "Raleway-Regular"
+				padding = context.getHeightValue("2500um")
+			}
+			LabelWidget {
+				text = "Password"
+				textColor = Color.black()
+				fontFamily = "Times New Roman"
+				fontSize = context.getHeightValue("5mm")
+			}
+			TextInputWidget password {
+				id #common = "password"
+				type = TextInputWidget.TYPE_PASSWORD
+				backgroundColor = Color.white()
+				fontSize = context.getHeightValue("5mm")
+				fontFamily = "Times New Roman"
+				padding = context.getHeightValue("2500um")
+			}
+		}
+	}
+	
+}
+
+func initializeWidget override
+{
+	base.initializeWidget()
+    var loginbtn = ButtonWidget.forText(context, "Login", func {
+		NavigationWidget.switchToContainer(this, new RidersForm(context))
+
+			
+	})
+	 var backbtn = ButtonWidget.forText(context, "Back To Menu", func {	
+			NavigationWidget.switchToContainer(this, new HomeWidget(context))
+
+	})
+
+	loginbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	loginbtn.setWidgetTextColor(Color.white())
+	loginbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetTextColor(Color.white())
+	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	vbox.addWidget(loginbtn)
+	vbox.addWidget(backbtn)
+	
+}

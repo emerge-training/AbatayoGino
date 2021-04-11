@@ -1,0 +1,222 @@
+class name app.SchedulingSystemConfig header public
+{
+	import jk.lang
+	import jk.env
+	import jk.http.server.cors
+	ctor
+	func getAllowedOrigins as array
+	func getCorsUtil as jk.http.server.cors.HTTPServerCORSUtil
+}
+class name app.SchedulingSystemDatabase header public
+{
+	import jk.lang
+	import jk.log
+	import jk.sqlite
+	import jk.mysql
+	import jk.sql
+	import jk.env
+	import jk.time
+	ctor
+	class name Riderregistration header extends jk.json.JSONObjectAdapter implements jk.lang.StringObject public static static
+	{
+		import jk.json
+		ctor
+		func setId(value as string) as app.SchedulingSystemDatabase.Riderregistration
+		func getId as string
+		func setFirstname(value as string) as app.SchedulingSystemDatabase.Riderregistration
+		func getFirstname as string
+		func setMiddlename(value as string) as app.SchedulingSystemDatabase.Riderregistration
+		func getMiddlename as string
+		func setLastname(value as string) as app.SchedulingSystemDatabase.Riderregistration
+		func getLastname as string
+		func setAddress(value as string) as app.SchedulingSystemDatabase.Riderregistration
+		func getAddress as string
+		func setAge(value as string) as app.SchedulingSystemDatabase.Riderregistration
+		func getAge as string
+		func setGender(value as string) as app.SchedulingSystemDatabase.Riderregistration
+		func getGender as string
+		func setContactnumber(value as string) as app.SchedulingSystemDatabase.Riderregistration
+		func getContactnumber as string
+		func setTimeStampAddedValue(value as long) as app.SchedulingSystemDatabase.Riderregistration
+		func getTimeStampAddedValue as long
+		func setTimeStampAdded(value as jk.lang.LongIntegerObject) as app.SchedulingSystemDatabase.Riderregistration
+		func getTimeStampAdded as jk.lang.LongIntegerObject
+		func setTimeStampLastUpdatedValue(value as long) as app.SchedulingSystemDatabase.Riderregistration
+		func getTimeStampLastUpdatedValue as long
+		func setTimeStampLastUpdated(value as jk.lang.LongIntegerObject) as app.SchedulingSystemDatabase.Riderregistration
+		func getTimeStampLastUpdated as jk.lang.LongIntegerObject
+		func toJsonObject override as object
+		func fromJsonObject(o as object) override as bool
+		func fromJsonString(o as string) as bool
+		func toJsonString as string
+		func toString as string
+		func forJsonString(o as string) static as app.SchedulingSystemDatabase.Riderregistration
+		func forJsonObject(o as object) static as app.SchedulingSystemDatabase.Riderregistration
+	}
+	class name Riderschedule header extends jk.json.JSONObjectAdapter implements jk.lang.StringObject public static static
+	{
+		import jk.json
+		ctor
+		func setId(value as string) as app.SchedulingSystemDatabase.Riderschedule
+		func getId as string
+		func setFname(value as string) as app.SchedulingSystemDatabase.Riderschedule
+		func getFname as string
+		func setMname(value as string) as app.SchedulingSystemDatabase.Riderschedule
+		func getMname as string
+		func setLname(value as string) as app.SchedulingSystemDatabase.Riderschedule
+		func getLname as string
+		func setDate(value as string) as app.SchedulingSystemDatabase.Riderschedule
+		func getDate as string
+		func setTime(value as string) as app.SchedulingSystemDatabase.Riderschedule
+		func getTime as string
+		func setTimeStampAddedValue(value as long) as app.SchedulingSystemDatabase.Riderschedule
+		func getTimeStampAddedValue as long
+		func setTimeStampAdded(value as jk.lang.LongIntegerObject) as app.SchedulingSystemDatabase.Riderschedule
+		func getTimeStampAdded as jk.lang.LongIntegerObject
+		func setTimeStampLastUpdatedValue(value as long) as app.SchedulingSystemDatabase.Riderschedule
+		func getTimeStampLastUpdatedValue as long
+		func setTimeStampLastUpdated(value as jk.lang.LongIntegerObject) as app.SchedulingSystemDatabase.Riderschedule
+		func getTimeStampLastUpdated as jk.lang.LongIntegerObject
+		func toJsonObject override as object
+		func fromJsonObject(o as object) override as bool
+		func fromJsonString(o as string) as bool
+		func toJsonString as string
+		func toString as string
+		func forJsonString(o as string) static as app.SchedulingSystemDatabase.Riderschedule
+		func forJsonObject(o as object) static as app.SchedulingSystemDatabase.Riderschedule
+	}
+	class name Riderfeedback header extends jk.json.JSONObjectAdapter implements jk.lang.StringObject public static static
+	{
+		import jk.json
+		ctor
+		func setId(value as string) as app.SchedulingSystemDatabase.Riderfeedback
+		func getId as string
+		func setRidername(value as string) as app.SchedulingSystemDatabase.Riderfeedback
+		func getRidername as string
+		func setRiderfback(value as string) as app.SchedulingSystemDatabase.Riderfeedback
+		func getRiderfback as string
+		func setTimeStampAddedValue(value as long) as app.SchedulingSystemDatabase.Riderfeedback
+		func getTimeStampAddedValue as long
+		func setTimeStampAdded(value as jk.lang.LongIntegerObject) as app.SchedulingSystemDatabase.Riderfeedback
+		func getTimeStampAdded as jk.lang.LongIntegerObject
+		func setTimeStampLastUpdatedValue(value as long) as app.SchedulingSystemDatabase.Riderfeedback
+		func getTimeStampLastUpdatedValue as long
+		func setTimeStampLastUpdated(value as jk.lang.LongIntegerObject) as app.SchedulingSystemDatabase.Riderfeedback
+		func getTimeStampLastUpdated as jk.lang.LongIntegerObject
+		func toJsonObject override as object
+		func fromJsonObject(o as object) override as bool
+		func fromJsonString(o as string) as bool
+		func toJsonString as string
+		func toString as string
+		func forJsonString(o as string) static as app.SchedulingSystemDatabase.Riderfeedback
+		func forJsonObject(o as object) static as app.SchedulingSystemDatabase.Riderfeedback
+	}
+	var RIDERREGISTRATION public static const as string
+	var RIDERSCHEDULE public static const as string
+	var RIDERFEEDBACK public static const as string
+	func forContext(ctx as jk.log.LoggingContext) static as app.SchedulingSystemDatabase
+	func updateTable(table as jk.sql.SQLTableInfo)
+	func updateRiderregistrationTables
+	func addRiderregistration(riderregistration as app.SchedulingSystemDatabase.Riderregistration) as app.SchedulingSystemDatabase.Riderregistration
+	func updateRiderregistration(id as string, riderregistration as app.SchedulingSystemDatabase.Riderregistration) as bool
+	func deleteRiderregistration(id as string) as bool
+	func getRiderregistrations as jk.lang.DynamicMap
+	func updateRiderscheduleTables
+	func addRiderschedule(riderschedule as app.SchedulingSystemDatabase.Riderschedule) as app.SchedulingSystemDatabase.Riderschedule
+	func updateRiderschedule(id as string, riderschedule as app.SchedulingSystemDatabase.Riderschedule) as bool
+	func deleteRiderschedule(id as string) as bool
+	func getRiderschedules as jk.lang.DynamicMap
+	func updateRiderfeedbackTables
+	func addRiderfeedback(riderfeedback as app.SchedulingSystemDatabase.Riderfeedback) as app.SchedulingSystemDatabase.Riderfeedback
+	func deleteRiderfeedback(id as string) as bool
+	func updateRiderfeedback(id as string, riderfeedback as app.SchedulingSystemDatabase.Riderfeedback) as bool
+	func getRiderfeedbacks as jk.lang.DynamicMap
+	func close
+	func getDb as jk.mysql.MySQLDatabase #getterMethod
+	func setDb(v as jk.mysql.MySQLDatabase) as app.SchedulingSystemDatabase #setterMethod
+}
+class name app.SchedulingSystemApiServer header extends jk.server.web.WebServer public
+{
+	import jk.lang
+	import jk.http.server
+	import jk.server.web
+	ctor
+	func initializeServer(server as jk.http.server.HTTPServer) override as bool
+	func initializeApplication override as bool
+}
+class name app.SchedulingSystemApiHandler header extends jk.http.worker.HTTPRPCRouter public
+{
+	import jk.lang
+	import jk.http.worker
+	import jk.http.client
+	ctor
+	class name RiderregistrationRequest header extends jk.json.JSONObjectAdapter implements jk.lang.StringObject public static static
+	{
+		import jk.json
+		ctor
+		func setFirstname(value as string) as app.SchedulingSystemApiHandler.RiderregistrationRequest
+		func getFirstname as string
+		func setMiddlename(value as string) as app.SchedulingSystemApiHandler.RiderregistrationRequest
+		func getMiddlename as string
+		func setLastname(value as string) as app.SchedulingSystemApiHandler.RiderregistrationRequest
+		func getLastname as string
+		func setAddress(value as string) as app.SchedulingSystemApiHandler.RiderregistrationRequest
+		func getAddress as string
+		func setAge(value as string) as app.SchedulingSystemApiHandler.RiderregistrationRequest
+		func getAge as string
+		func setGender(value as string) as app.SchedulingSystemApiHandler.RiderregistrationRequest
+		func getGender as string
+		func setContactnumber(value as string) as app.SchedulingSystemApiHandler.RiderregistrationRequest
+		func getContactnumber as string
+		func toJsonObject override as object
+		func fromJsonObject(o as object) override as bool
+		func fromJsonString(o as string) as bool
+		func toJsonString as string
+		func toString as string
+		func forJsonString(o as string) static as app.SchedulingSystemApiHandler.RiderregistrationRequest
+		func forJsonObject(o as object) static as app.SchedulingSystemApiHandler.RiderregistrationRequest
+	}
+	class name RiderscheduleRequest header extends jk.json.JSONObjectAdapter implements jk.lang.StringObject public static static
+	{
+		import jk.json
+		ctor
+		func setFname(value as string) as app.SchedulingSystemApiHandler.RiderscheduleRequest
+		func getFname as string
+		func setMname(value as string) as app.SchedulingSystemApiHandler.RiderscheduleRequest
+		func getMname as string
+		func setLname(value as string) as app.SchedulingSystemApiHandler.RiderscheduleRequest
+		func getLname as string
+		func setData(value as string) as app.SchedulingSystemApiHandler.RiderscheduleRequest
+		func getData as string
+		func setTime(value as string) as app.SchedulingSystemApiHandler.RiderscheduleRequest
+		func getTime as string
+		func toJsonObject override as object
+		func fromJsonObject(o as object) override as bool
+		func fromJsonString(o as string) as bool
+		func toJsonString as string
+		func toString as string
+		func forJsonString(o as string) static as app.SchedulingSystemApiHandler.RiderscheduleRequest
+		func forJsonObject(o as object) static as app.SchedulingSystemApiHandler.RiderscheduleRequest
+	}
+	class name RiderfeedbackRequest header extends jk.json.JSONObjectAdapter implements jk.lang.StringObject public static static
+	{
+		import jk.json
+		ctor
+		func setRidername(value as string) as app.SchedulingSystemApiHandler.RiderfeedbackRequest
+		func getRidername as string
+		func setRiderfback(value as string) as app.SchedulingSystemApiHandler.RiderfeedbackRequest
+		func getRiderfback as string
+		func toJsonObject override as object
+		func fromJsonObject(o as object) override as bool
+		func fromJsonString(o as string) as bool
+		func toJsonString as string
+		func toString as string
+		func forJsonString(o as string) static as app.SchedulingSystemApiHandler.RiderfeedbackRequest
+		func forJsonObject(o as object) static as app.SchedulingSystemApiHandler.RiderfeedbackRequest
+	}
+	func getRiderregistrationDatabase as app.SchedulingSystemDatabase
+	func getRiderscheduleDatabase as app.SchedulingSystemDatabase
+	func getRiderfeedbackDatabase as app.SchedulingSystemDatabase
+	func postProcess(req as jk.http.worker.HTTPWorkerRequest, resp as jk.http.worker.HTTPWorkerResponse) override
+	func initRoutes override
+}

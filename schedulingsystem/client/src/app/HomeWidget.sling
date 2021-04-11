@@ -1,0 +1,42 @@
+import jk.widget.common
+
+class #widget:
+
+ui LayerWidget
+{
+    
+	CanvasWidget {
+		color = Color.forString("#FFFFFF")
+	}
+	    ImageWidget image {
+			imageResource = "sample1"
+			imageWidth = context.getHeightValue("1390px")
+			imageHeight = context.getHeightValue("1500px")
+			imageScaleMethod = ImageWidget.FIT
+		}
+	VerticalBoxWidget {
+		margin = 0
+		spacing = 0
+		MenuBarWidget menu {
+		}
+	}
+    		 
+}
+
+func initializeWidget override
+{
+	base.initializeWidget()
+	var file = menu.addMenu("Main Menu")
+	file.addEntry("ADMIN LOGIN", func{
+		NavigationWidget.switchToContainer(this, new AdminLogin(context))
+
+	})
+	file.addEntry("RIDERS LOGIN", func {
+		NavigationWidget.switchToContainer(this, new RidersLogin(context))
+	})
+	
+	file.addEntry("RIGESTRATION FORM", func {
+		NavigationWidget.switchToContainer(this, new RegistrationForm(context))
+	})
+	
+}

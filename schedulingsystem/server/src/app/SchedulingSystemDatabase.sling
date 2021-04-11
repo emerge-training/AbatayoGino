@@ -1,0 +1,261 @@
+import jk.log
+import jk.sqlite
+import jk.mysql
+import jk.sql
+import jk.env
+import jk.time
+
+class:
+
+model Riderregistration
+{
+    id as string
+    firstname as string
+    middlename as string
+    lastname as string
+    address as string
+    age as string
+    gender as string
+    contactnumber as string  
+    username as string
+    password as string
+    timeStampAdded as long
+    timeStampLastUpdated as long
+}
+
+model Riderschedule
+{
+    id as string
+    fname as string
+    mname as string
+    lname as string
+    date as string
+    time as string
+    timeStampAdded as long
+    timeStampLastUpdated as long
+}
+
+model Riderfeedback
+{
+    id as string
+    ridername as string
+    riderfback as string
+    timeStampAdded as long
+    timeStampLastUpdated as long
+}
+
+const RIDERREGISTRATION = "riderregistration"
+const RIDERSCHEDULE = "riderschedule"
+const RIDERFEEDBACK = "riderfeedback"
+pvar db as MySQLDatabase
+
+func forContext(ctx as LoggingContext) static as this
+{
+    var cstr = EnvironmentVariable.get("SCHEDULINGSYSM_DATABASE")
+    Log.debug(ctx, "Opening database connection: '" .. cstr .."'")
+    db = MySQLDatabase.forConnectionStringSync(ctx, cstr)
+    if not db:
+        Error.throw("failedToConnectToDatabase", cstr)
+    var v = new this()
+    v.setDb(db)
+    return v
+}
+
+func updateTable(table as SQLTableInfo)
+{
+    if not table:
+        Error.throw("nullTable", "updateTable")
+    if not db:
+        Error.throw("nullDb", "updateTable")
+    if not db.ensureTableExistsSync(table):
+        Error.throw("failedToUpdateTable", table.getName())
+}
+
+// # Riderregistration
+// # this is just a comment line
+// #
+
+func updateRiderregistrationTables
+{
+    var riderregistration = SQLTableInfo.forName(RIDERREGISTRATION)
+    riderregistration.addStringKeyColumn("id")
+    riderregistration.addStringColumn("firstname")
+    riderregistration.addStringColumn("middlename")
+    riderregistration.addStringColumn("lastname")
+    riderregistration.addStringColumn("address")
+    riderregistration.addStringColumn("age")
+    riderregistration.addStringColumn("gender")
+    riderregistration.addStringColumn("contactnumber")
+    riderregistration.addLongColumn("timeStampAdded")
+    riderregistration.addLongColumn("timeStampLastUpdated")
+    updateTable(riderregistration)
+}
+
+func addRiderregistration(riderregistration as Riderregistration) as Riderregistration
+{
+    assert riderregistration
+    riderregistration.setTimeStampAddedValue(SystemClock.asUTCSeconds())
+    assert db.executeSync(db.prepareInsertStatementSync(RIDERREGISTRATION, riderregistration.toDynamicMap()))
+    return riderregistration
+}
+
+func updateRiderregistration(id as string, riderregistration as Riderregistration) as bool
+{
+    assert riderregistration
+    riderregistration.setTimeStampLastUpdatedValue(SystemClock.asUTCSeconds())
+    var criteria = new Riderregistration()
+    criteria.setId(id)
+    return db.executeSync(db.prepareUpdateStatementSync(RIDERREGISTRATION, criteria.toDynamicMap(), riderregistration.toDynamicMap()))
+}
+
+func deleteRiderregistration(id as string) as bool
+{
+    var criteria = new Riderregistration()
+    criteria.setId(id)
+    return db.executeSync(db.prepareDeleteStatementSync(RIDERREGISTRATION, criteria.toDynamicMap()))
+}
+
+func getRiderregistrations as DynamicMap
+{
+    var v = new vector<Riderregistration>
+    var it = assert db.querySync(db.prepareQueryAllStatementSync(RIDERREGISTRATION)):
+        return null
+    while it {
+        var o = it.next()
+        if not o:
+            break
+        var riderregistration = Riderregistration.forJsonObject(o)
+        if not riderregistration:
+            continue
+        v += riderregistration
+    }
+    var data = new DynamicMap()
+    data.setObject("records", v)
+    return data
+}
+
+// # riderschedule
+// # this is just a comment line
+// #
+
+func updateRiderscheduleTables
+{
+    var riderschedule = SQLTableInfo.forName(RIDERSCHEDULE)
+    riderschedule.addStringKeyColumn("id")
+    riderschedule.addStringColumn("fname")
+    riderschedule.addStringColumn("mname")
+    riderschedule.addStringColumn("lname")
+    riderschedule.addStringColumn("date")
+    riderschedule.addStringColumn("time")
+    riderschedule.addLongColumn("timeStampAdded")
+    riderschedule.addLongColumn("timeStampLastUpdated")
+    updateTable(riderschedule)
+}
+
+func addRiderschedule(riderschedule as Riderschedule) as Riderschedule
+{
+    assert riderschedule
+    riderschedule.setTimeStampAddedValue(SystemClock.asUTCSeconds())
+    assert db.executeSync(db.prepareInsertStatementSync(RIDERSCHEDULE, riderschedule.toDynamicMap()))
+    return riderschedule
+}
+
+func updateRiderschedule(id as string, riderschedule as Riderschedule) as bool
+{
+    assert riderschedule
+    riderschedule.setTimeStampLastUpdatedValue(SystemClock.asUTCSeconds())
+    var criteria = new Riderschedule()
+    criteria.setId(id)
+    return db.executeSync(db.prepareUpdateStatementSync(RIDERSCHEDULE, criteria.toDynamicMap(), riderschedule.toDynamicMap()))
+}
+
+func deleteRiderschedule(id as string) as bool
+{
+    var criteria = new Riderschedule()
+    criteria.setId(id)
+    return db.executeSync(db.prepareDeleteStatementSync(RIDERSCHEDULE, criteria.toDynamicMap()))
+}
+
+func getRiderschedules as DynamicMap
+{
+    var v = new vector<Riderschedule>
+    var it = assert db.querySync(db.prepareQueryAllStatementSync(RIDERSCHEDULE)):
+        return null
+    while it {
+        var o = it.next()
+        if not o:
+            break
+        var riderschedule = Riderschedule.forJsonObject(o)
+        if not riderschedule:
+            continue
+        v += riderschedule
+    }
+    var data = new DynamicMap()
+    data.setObject("records", v)
+    return data
+}
+
+// # Riderfeedback
+// # this is a comment line
+// #
+
+func updateRiderfeedbackTables
+{
+    var riderfeedback = SQLTableInfo.forName(RIDERFEEDBACK)
+    riderfeedback.addStringKeyColumn("id")
+    riderfeedback.addStringColumn("ridername")
+    riderfeedback.addStringColumn("riderfback")
+    riderfeedback.addLongColumn("timeStampAdded")
+    riderfeedback.addLongColumn("timeStampLastUpdated")
+    updateTable(riderfeedback)
+}
+
+func addRiderfeedback(riderfeedback as Riderfeedback) as Riderfeedback
+{
+    assert riderfeedback
+    riderfeedback.setTimeStampAddedValue(SystemClock.asUTCSeconds())
+    assert db.executeSync(db.prepareInsertStatementSync(RIDERFEEDBACK, riderfeedback.toDynamicMap()))
+    return riderfeedback
+}
+func deleteRiderfeedback(id as string) as bool
+{
+    var criteria = new Riderfeedback()
+    criteria.setId(id)
+    return db.executeSync(db.prepareDeleteStatementSync(RIDERSCHEDULE, criteria.toDynamicMap()))
+}
+
+func updateRiderfeedback(id as string, riderfeedback as Riderfeedback) as bool
+{
+    assert riderfeedback
+    riderfeedback.setTimeStampLastUpdatedValue(SystemClock.asUTCSeconds())
+    var criteria = new Riderfeedback()
+    criteria.setId(id)
+    return db.executeSync(db.prepareUpdateStatementSync(RIDERFEEDBACK, criteria.toDynamicMap(), riderfeedback.toDynamicMap()))
+}
+
+
+func getRiderfeedbacks as DynamicMap
+{
+    var v = new vector<Riderfeedback>
+    var it = assert db.querySync(db.prepareQueryAllStatementSync(RIDERFEEDBACK)):
+        return null
+    while it {
+        var o = it.next()
+        if not o:
+            break
+        var riderfeedback = Riderfeedback.forJsonObject(o)
+        if not riderfeedback:
+            continue
+        v += riderfeedback
+    }
+    var data = new DynamicMap()
+    data.setObject("records", v)
+    return data
+}
+
+func close
+{
+    if db:
+        db.closeSync()
+    db = null
+}

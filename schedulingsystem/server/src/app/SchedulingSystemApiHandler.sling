@@ -1,0 +1,205 @@
+import jk.http.client
+import jk.http.worker
+
+class is HTTPRPCRouter #webapi2:
+
+model RiderregistrationRequest
+{
+    id as string
+    firstname as string
+    middlename as string
+    lastname as string
+    address as string
+    age as string
+    gender as string
+    contactnumber as string
+    username as string
+    password as string
+}
+
+model RiderscheduleRequest
+{
+    fname as string
+    mname as string
+    lname as string
+    data as string
+    time as string
+}
+
+model RiderfeedbackRequest
+{
+    ridername as string
+    riderfback as string
+}
+
+var db as SchedulingSystemDatabase
+var cors = SchedulingSystemConfig.getCorsUtil()
+
+func getRiderregistrationDatabase as SchedulingSystemDatabase
+{
+    if not db {
+        db = SchedulingSystemDatabase.forContext(getCtx())
+        db.updateRiderregistrationTables()
+    }
+    return db
+}
+
+func getRiderscheduleDatabase as SchedulingSystemDatabase
+{
+    if not db {
+        db = SchedulingSystemDatabase.forContext(getCtx())
+        db.updateRiderscheduleTables()
+    }
+    return db
+}
+
+func getRiderfeedbackDatabase as SchedulingSystemDatabase
+{
+    if not db {
+        db = SchedulingSystemDatabase.forContext(getCtx())
+        db.updateRiderfeedbackTables()
+    }
+    return db
+}
+
+func postProcess(req as HTTPWorkerRequest, resp as HTTPWorkerResponse) override:
+cors.handleWorkerRequest(req, resp)
+
+// # Riderregistration
+// # this is just a comment line
+// #
+
+GET "/riderregistrations"
+{
+    var riderregistrations = assert getRiderregistrationDatabase().getRiderregistrations()
+    sendOk riderregistrations
+}
+
+POST "/riderregistration"
+{
+    var requestData = assert RiderregistrationRequest.forJsonString(req.getBodyString()):
+        sendError "invalidRequest"
+    var riderregistration = new SchedulingSystemDatabase.Riderregistration()
+    riderregistration.setFirstname(requestData.getFirstname())
+    riderregistration.setMiddlename(requestData.getMiddlename())
+    riderregistration.setLastname(requestData.getLastname())
+    riderregistration.setAddress(requestData.getAddress())
+    riderregistration.setAge(requestData.getAge())
+    riderregistration.setGender(requestData.getGender())
+    riderregistration.setContactnumber(requestData.getContactnumber())
+    assert getRiderregistrationDatabase().addRiderregistration(riderregistration):
+        sendError "failedToSaveRiderregistration"
+    sendOk
+}
+
+PUT "/riderregistration/:id"
+{
+    var requestData = assert RiderregistrationRequest.forJsonString(req.getBodyString()):
+        sendError "invalidRequest"
+    var riderregistration = new SchedulingSystemDatabase.Riderregistration()
+    riderregistration.setFirstname(requestData.getFirstname())
+    riderregistration.setMiddlename(requestData.getMiddlename())
+    riderregistration.setLastname(requestData.getLastname())
+    riderregistration.setAddress(requestData.getAddress())
+    riderregistration.setAge(requestData.getAge())
+    riderregistration.setGender(requestData.getGender())
+    riderregistration.setContactnumber(requestData.getContactnumber())
+    assert getRiderregistrationDatabase().updateRiderregistration(vars.getString("id"), riderregistration):
+        sendError "failedToUpdateRiderregistration"
+    sendOk
+}
+
+DELETE "/riderregistration/:id"
+{
+    assert getRiderregistrationDatabase().deleteRiderregistration(vars.getString("id")):
+        sendError "failedToDeleteRiderregistration"
+    sendOk
+}
+
+// # riderschedule
+// # this is just a comment line
+// #
+
+GET "/riderschedules"
+{
+    var riderschedules = assert getRiderscheduleDatabase().getRiderschedules()
+    sendOk riderschedules
+}
+
+POST "/riderschedule"
+{
+    var requestData = assert RiderscheduleRequest.forJsonString(req.getBodyString()):
+        sendError "invalidRequest"
+    var riderschedule = new SchedulingSystemDatabase.Riderschedule()
+    riderschedule.setFname(requestData.getFname())
+    riderschedule.setMname(requestData.getMname())
+    riderschedule.setLname(requestData.getLname())
+    riderschedule.setDate(requestData.getData())
+    riderschedule.setTime(requestData.getTime())
+    assert getRiderscheduleDatabase().addRiderschedule(riderschedule):
+        sendError "failedToSaveRiderschedule"
+    sendOk
+}
+
+PUT "/riderschedule/:id"
+{
+    var requestData = assert RiderscheduleRequest.forJsonString(req.getBodyString()):
+        sendError "invalidRequest"
+    var riderschedule = new SchedulingSystemDatabase.Riderschedule()
+    riderschedule.setFname(requestData.getFname())
+    riderschedule.setMname(requestData.getMname())
+    riderschedule.setLname(requestData.getLname())
+    riderschedule.setDate(requestData.getData())
+    riderschedule.setTime(requestData.getTime())
+    assert getRiderscheduleDatabase().updateRiderschedule(vars.getString("id"), riderschedule):
+        sendError "failedToUpdateRiderschedule"
+    sendOk
+}
+
+DELETE "/riderschedule/:id"
+{
+    assert getRiderscheduleDatabase().deleteRiderschedule(vars.getString("id")):
+        sendError "failedToDeleteRiderschedule"
+    sendOk
+}
+
+// # Riderfeedback part
+// # this is just a comment line
+// # 
+
+GET "/riderfeedbacks"
+{
+    var riderfeedbacks = assert getRiderfeedbackDatabase().getRiderfeedbacks()
+    sendOk riderfeedbacks
+}
+
+POST "/riderfeedback"
+{
+    var requestData = assert RiderfeedbackRequest.forJsonString(req.getBodyString()):
+        sendError "invalidRequest"
+    var riderfeedback = new SchedulingSystemDatabase.Riderfeedback()
+    riderfeedback.setRidername(requestData.getRidername())
+    riderfeedback.setRiderfback(requestData.getRiderfback())
+    assert getRiderfeedbackDatabase().addRiderfeedback(riderfeedback):
+        sendError "failedToSaveRiderfeedback"
+    sendOk
+}
+
+PUT "/riderfeedback/:id"
+{
+    var requestData = assert RiderfeedbackRequest.forJsonString(req.getBodyString()):
+        sendError "invalidRequest"
+    var riderfeedback = new SchedulingSystemDatabase.Riderfeedback()
+    riderfeedback.setRidername(requestData.getRidername())
+    riderfeedback.setRiderfback(requestData.getRiderfback())
+    assert getRiderfeedbackDatabase().updateRiderfeedback(vars.getString("id"), riderfeedback):
+        sendError "failedToUpdateRiderfeedback"
+    sendOk
+}
+
+DELETE "/riderfeedback/:id"
+{
+    assert getRiderfeedbackDatabase().deleteRiderfeedback(vars.getString("id")):
+        sendError "failedToDeleteRiderfeedback"
+    sendOk
+}

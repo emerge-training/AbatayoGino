@@ -1,0 +1,84 @@
+import jk.widget
+import jk.widget.common
+import jk.widget.datagrid
+
+class #widget:
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.instance("#949796")
+	}
+	VerticalScrollerWidget {
+		ImageWidget image {
+			imageResource = "sample1"
+			imageWidth = context.getHeightValue("1150px")
+			imageHeight = context.getHeightValue("820px")
+			imageScaleMethod = ImageWidget.FIT
+		}
+		AlignWidget {
+			marginLeft = 400
+			marginRight = 400
+			VerticalBoxWidget vbox : 0.5, 0.5, true {
+				margin = context.getHeightValue("5000um")
+				spacing = context.getHeightValue("2000um")
+				LabelWidget {
+					text = "RIDER'S FEEDBACK"
+					textColor = Color.instance("#black")
+					fontSize = context.getHeightValue("4mm")
+					textAlign = LabelWidget.ALIGN_LEFT
+					fontBold = true
+				}
+                TextInputWidget id {
+					type = TextInputWidget.TYPE_INTEGER
+					placeholder = "ID "
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+                TextInputWidget name {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Name"
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("3mm")
+					padding = context.getHeightValue("2500um")
+				}
+			}
+		}
+	}
+}
+
+func initializeWidget override
+{
+	var message = new TextAreaWidget(context)
+	message.setWidgetText("")
+	message.setWidgetRows(5)
+	message.setWidgetPadding(context.getHeightValue("2500um"))
+	message.setWidgetPlaceholder(" ")
+	message.setWidgetMaxLength(100)
+    message.setWidgetBackgroundColor(Color.instance("#FFC0CB"))
+	vbox.addWidget(message)
+	var viewbtn = ButtonWidget.forText(context, "View", func {
+		
+	})
+		base.initializeWidget()
+    var backbtn = ButtonWidget.forText(context, "Back To Admin Form", func {
+			NavigationWidget.switchToContainer(this, new AdminForm(context))
+	})
+	viewbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	viewbtn.setWidgetTextColor(Color.white())
+	viewbtn.setWidgetFontSize(context.getHeightValue("3mm"))
+	vbox.addWidget(viewbtn)
+	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetTextColor(Color.white())
+	backbtn.setWidgetFontSize(context.getHeightValue("3mm"))
+	vbox.addWidget(backbtn)
+}
+
+func getMessage(str as string) as Widget
+{
+	var msg = new LabelWidget(context)
+	msg.setWidgetText(str)
+	return msg
+}
+

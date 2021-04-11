@@ -1,0 +1,170 @@
+import jk.widget.common
+
+class #widget #main:
+
+model Riderregistration
+{
+
+	id as string
+	firstname as string
+	middlename as string
+	lastname as string
+	address as string
+	age as string
+	gender as string
+	contactnumber as string
+	username as string
+	password as string
+
+}
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.instance("#949796")
+	}
+		AlignWidget {
+	VerticalBoxWidget {
+		spacing = context.getHeightValue("5mm")
+	 ImageWidget image {
+			imageResource = "sample1"
+			imageWidth = context.getHeightValue("1390px")
+			imageHeight = context.getHeightValue("1500px")
+			imageScaleMethod = ImageWidget.FIT
+		}
+	}
+			VerticalBoxWidget vbox {
+				margin = context.getHeightValue("35000um")
+				spacing = context.getHeightValue("800um")
+				LabelWidget {
+					text = "REGISTRATIONs"
+					textColor = Color.black()
+					fontSize = context.getHeightValue("8mm")
+					textAlign = LabelWidget.ALIGN_CENTER
+					fontBold = true
+				}
+				TextInputWidget id {
+					type = TextInputWidget.TYPE_INTEGER
+					placeholder = "ID"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget firstname {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "First Name"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget middlename {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Middle Name"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget lastname {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Last Name"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget address {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Address"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget age {
+					type = TextInputWidget.TYPE_INTEGER
+					placeholder = "Age"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget gender {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Gender"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget contactnumber {
+					type = TextInputWidget.TYPE_INTEGER
+					placeholder = "Contact Number"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget username {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Username"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget password {
+					type = TextInputWidget.TYPE_PASSWORD
+					placeholder = "Password"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}
+				
+			
+			}
+		}
+}
+
+func initializeWidget override
+{
+
+	base.initializeWidget()
+    
+	var signupbtn = ButtonWidget.forText(context, "Sign Up", func{
+		var riderregistration = new Riderregistration()
+		riderregistration.setId(id.getWidgetText())
+		riderregistration.setFirstname(firstname.getWidgetText())
+		riderregistration.setMiddlename(middlename.getWidgetText())
+		riderregistration.setLastname(lastname.getWidgetText())
+		riderregistration.setAddress(address.getWidgetText())
+		riderregistration.setAge(age.getWidgetText())
+		riderregistration.setGender(gender.getWidgetText())
+		riderregistration.setContactnumber(contactnumber.getWidgetText())
+		riderregistration.setUsername(username.getWidgetText())
+		riderregistration.setPassword(password.getWidgetText())
+		APIClient.getInstance().addRiderregistration(riderregistration.toDynamicMap(), func(res as DynamicMap){
+			context.showMessageDialog("Notice", "Rider Successfully Register")
+			id.setWidgetText("")
+			firstname.setWidgetText("")
+			middlename.setWidgetText("")
+			lastname.setWidgetText("")
+			address.setWidgetText("")
+			age.setWidgetText("")
+			gender.setWidgetText("")
+			contactnumber.setWidgetText("")
+			username.setWidgetText("")
+			password.setWidgetText("")
+		}, func(err as Error){
+			context.showMessageDialog("Notice", "Failed to Register")
+		})
+	})
+
+	var backbtn = ButtonWidget.forText(context, "Back To Menu", func{
+		NavigationWidget.switchToContainer(this, new HomeWidget(context))
+	})
+
+	signupbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	signupbtn.setWidgetTextColor(Color.white())
+	signupbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetTextColor(Color.white())
+	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	vbox.addWidget(signupbtn)
+	vbox.addWidget(backbtn)
+	
+	
+}

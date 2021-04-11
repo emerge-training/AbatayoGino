@@ -1,0 +1,24 @@
+import jk.http.server
+import jk.server.web
+
+class is WebServer:
+
+func initializeServer(server as HTTPServer) override as bool
+{
+    assert base.initializeServer(server)
+    server.setCreateOptionsResponseHandler(func(req as HTTPServerRequest) as HTTPServerResponse {
+        return SchedulingSystemConfig.getCorsUtil().handlePreflightRequest(req)
+    })
+    return true
+}
+
+func initializeApplication override as bool
+{
+    assert base.initializeApplication()
+    var db = SchedulingSystemDatabase.forContext(ctx)
+    db.updateRiderregistrationTables()
+    db.close()
+    return true
+}
+main:
+    return new this().setWorker(typeinfo SchedulingSystemApiHandler).executeMain(args)

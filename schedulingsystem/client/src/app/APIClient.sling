@@ -1,0 +1,83 @@
+import jk.widget.web
+import jk.ui
+import jk.widget
+
+class is JSONAPIClientWithGui:
+
+pvar widgetDefaultErrorHandler as function<void, Error>
+var instance static as this
+
+func getInstance static as this:
+    return instance
+
+func create(context as GuiApplicationContext, parentWidget as Widget = null) static as this
+{
+    assert context
+    instance = new this()
+    instance.setApiUrl("http://ec2-13-250-31-192.ap-southeast-1.compute.amazonaws.com:30055")
+    instance.setContext(context)
+    if parentWidget:
+        instance.setParentWidget(parentWidget)
+    return instance
+}
+
+func onError(error as Error, callback as function<void,Error>) override
+{
+    assert callback:
+        onDefaultErrorHandler(error)
+    base.onError(error, callback)
+}
+    func onDefaultErrorHandler(error as Error) override
+{
+    var context = assert getContext()
+    assert error
+    assert widgetDefaultErrorHandler:
+        context.showErrorDialog(error.toString())
+    widgetDefaultErrorHandler(error)
+}
+
+// RIDERREGISTRATION
+//
+
+func addRiderregistration(data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doPost("/riderregistration/", data, callback, errorCallback)
+
+func updateRiderregistration(id as string, data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doPut("/riderresgistration/" .. id, data, callback, errorCallback)
+
+func deleteRiderregistration(id as string, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doDelete("/riderregistration/" .. id, callback, errorCallback)
+
+func getRiderregistrations(callback as function<void, DynamicMap>, errorCallback as function<void, Error> = null):
+    doGet("/riderregistrations/", callback, errorCallback)
+
+// RIDERSCHEDULE
+//
+
+func addRiderschedule(data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doPost("/riderschedule/", data, callback, errorCallback)
+
+func updateRiderschedule(id as string, data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doPut("/riderschedule/" .. id, data, callback, errorCallback)
+
+func deleteRiderschedule(id as string, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doDelete("/riderschedule/" .. id, callback, errorCallback)
+
+func getRiderschedules(callback as function<void, DynamicMap>, errorCallback as function<void, Error> = null):
+    doGet("/riderschedules/", callback, errorCallback)
+
+//RIDERFEEDBACK
+//
+
+func addRiderfeedback(data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doPost("/riderfeedback/", data, callback, errorCallback)
+
+func updateRiderfeedback(id as string, data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doPut("/riderfeedback/" .. id, data, callback, errorCallback)
+
+func deleteRiderfeedback(id as string, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doDelete("/riderfeedback/" .. id, callback, errorCallback)
+
+func getRiderfeedbacks(callback as function<void, DynamicMap>, errorCallback as function<void, Error> = null):
+    doGet("/riderfeedbacks/", callback, errorCallback)
+    
