@@ -14,7 +14,7 @@ func create(context as GuiApplicationContext, parentWidget as Widget = null) sta
 {
     assert context
     instance = new this()
-    instance.setApiUrl("http://ec2-13-250-31-192.ap-southeast-1.compute.amazonaws.com:30055")
+    instance.setApiUrl("http://ec2-54-251-207-1.ap-southeast-1.compute.amazonaws.com:30009")
     instance.setContext(context)
     if parentWidget:
         instance.setParentWidget(parentWidget)
@@ -40,7 +40,7 @@ func onError(error as Error, callback as function<void,Error>) override
 //
 
 func addRiderregistration(data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
-    doPost("/riderregistration/", data, callback, errorCallback)
+    doPost("/Riderregistration/", data, callback, errorCallback)
 
 func updateRiderregistration(id as string, data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
     doPut("/riderresgistration/" .. id, data, callback, errorCallback)
@@ -80,4 +80,22 @@ func deleteRiderfeedback(id as string, callback as function<void, DynamicMap>, e
 
 func getRiderfeedbacks(callback as function<void, DynamicMap>, errorCallback as function<void, Error> = null):
     doGet("/riderfeedbacks/", callback, errorCallback)
-    
+
+//ADMIN LOGIN
+//
+
+func addAdmin(data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doPost("/admin", data, callback, errorCallback)
+
+func getAdmins(callback as function<void, DynamicMap>, errorCallback as function<void, Error> = null):
+    doGet("/admins", callback, errorCallback)
+
+    //RIDER LOGIN
+//
+
+func addAriderlogin(data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
+    doPost("/riderlogin", data, callback, errorCallback)
+
+func getRiderlogin(callback as function<void, DynamicMap>, errorCallback as function<void, Error> = null):
+    doGet("/riderlogin", callback, errorCallback)
+

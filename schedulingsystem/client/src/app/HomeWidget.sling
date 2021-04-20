@@ -9,7 +9,7 @@ ui LayerWidget
 		color = Color.forString("#FFFFFF")
 	}
 	    ImageWidget image {
-			imageResource = "sample1"
+			imageResource = "sample"
 			imageWidth = context.getHeightValue("1390px")
 			imageHeight = context.getHeightValue("1500px")
 			imageScaleMethod = ImageWidget.FIT

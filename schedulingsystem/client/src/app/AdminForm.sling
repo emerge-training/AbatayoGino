@@ -13,7 +13,7 @@ ui LayerWidget
 	VerticalBoxWidget {
 		spacing = context.getHeightValue("5mm")
 		ImageWidget image {
-			imageResource = "sample1"
+			imageResource = "sample"
 			imageWidth = context.getHeightValue("1150px")
 			imageHeight = context.getHeightValue("820px")
 			imageScaleMethod = ImageWidget.FIT
@@ -56,16 +56,16 @@ func initializeWidget override
 
 	})
 
-	addschedulebtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	addschedulebtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	addschedulebtn.setWidgetTextColor(Color.white())
 	addschedulebtn.setWidgetFontSize(context.getHeightValue("4mm"))
-	viewbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	viewbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	viewbtn.setWidgetTextColor(Color.white())
 	viewbtn.setWidgetFontSize(context.getHeightValue("4mm"))
-    crudbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+    crudbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	crudbtn.setWidgetTextColor(Color.white())
 	crudbtn.setWidgetFontSize(context.getHeightValue("4mm"))
-	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	backbtn.setWidgetTextColor(Color.white())
 	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
 	vbox.addWidget(addschedulebtn)

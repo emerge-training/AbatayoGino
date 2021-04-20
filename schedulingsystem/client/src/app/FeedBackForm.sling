@@ -11,7 +11,7 @@ ui LayerWidget
 	}
 	VerticalScrollerWidget {
 		ImageWidget image {
-			imageResource = "sample1"
+			imageResource = "sample"
 			imageWidth = context.getHeightValue("1150px")
 			imageHeight = context.getHeightValue("820px")
 			imageScaleMethod = ImageWidget.FIT
@@ -36,6 +36,14 @@ ui LayerWidget
 					fontSize = context.getHeightValue("3mm")
 					padding = context.getHeightValue("2500um")
 				}
+
+				    TextInputWidget feedback {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Feedback"
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("1mm")
+					padding = context.getHeightValue("7000um")
+				}
 			}
 		}
 	}
@@ -43,34 +51,20 @@ ui LayerWidget
 
 func initializeWidget override
 {
-	var message = new TextAreaWidget(context)
-	message.setWidgetText("")
-	message.setWidgetRows(5)
-	message.setWidgetPadding(context.getHeightValue("2500um"))
-	message.setWidgetPlaceholder("Please enter your feedback.")
-	message.setWidgetMaxLength(100)
-	vbox.addWidget(message)
 	var sendbtn = ButtonWidget.forText(context, "Send Message", func{
-		vbox.addWidget(getMessage(message.getWidgetText()))
+	
 	})
-		base.initializeWidget()
     var backbtn = ButtonWidget.forText(context, "Back To Riders Form", func {
 			NavigationWidget.switchToContainer(this, new RidersForm(context))
 	})
-	sendbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	sendbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	sendbtn.setWidgetTextColor(Color.white())
 	sendbtn.setWidgetFontSize(context.getHeightValue("3mm"))
 	vbox.addWidget(sendbtn)
-	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	backbtn.setWidgetTextColor(Color.white())
 	backbtn.setWidgetFontSize(context.getHeightValue("3mm"))
 	vbox.addWidget(backbtn)
 }
 
-func getMessage(str as string) as Widget
-{
-	var msg = new LabelWidget(context)
-	msg.setWidgetText(str)
-	return msg
-}
 

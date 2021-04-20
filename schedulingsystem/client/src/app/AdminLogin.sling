@@ -13,7 +13,7 @@ ui LayerWidget
 	VerticalBoxWidget {
 		spacing = context.getHeightValue("5mm")
 		 ImageWidget image {
-			imageResource = "sample1"
+			imageResource = "sample"
 			imageWidth = context.getHeightValue("1150px")
 			imageHeight = context.getHeightValue("820px")
 			imageScaleMethod = ImageWidget.FIT
@@ -39,7 +39,7 @@ ui LayerWidget
 			TextInputWidget username {
 				id #common = "username"
 				type = TextInputWidget.TYPE_NONASSISTED
-				backgroundColor = Color.white()
+				backgroundColor = Color.instance("#b0b0b0")
 				fontSize = context.getHeightValue("5mm")
 				fontFamily = "Raleway-Regular"
 				padding = context.getHeightValue("2500um")
@@ -53,7 +53,7 @@ ui LayerWidget
 			TextInputWidget password {
 				id #common = "password"
 				type = TextInputWidget.TYPE_PASSWORD
-				backgroundColor = Color.white()
+				backgroundColor = Color.instance("#b0b0b0")
 				fontSize = context.getHeightValue("5mm")
 				fontFamily = "Times New Roman"
 				padding = context.getHeightValue("2500um")
@@ -67,18 +67,43 @@ func initializeWidget override
 {
 	base.initializeWidget()
     var loginbtn = ButtonWidget.forText(context, "Login", func {
-		NavigationWidget.switchToContainer(this, new AdminForm(context))
+		APIClient.getInstance().getAdmins(func(response as DynamicMap){
+			var data = assert response.getDynamicMap("data")
+			var records = data.getDynamicVector("records")
+			var adminUsername = ""
+			var adminPassword = ""
+			if not records || records.getSize() < 1{
+				;
+			}
+			
+			else {
+				foreach record as DynamicMap in records.toVector(){
+					if username.getWidgetText() == record.getString("username") && password.getWidgetText() == record.getString("password"){
+						adminUsername = record.getString("username")
+						adminPassword = record.getString("password")
+						if adminUsername != "" && adminPassword != "" {
+							context.showMessageDialog("Notice", "Welcome " .. adminUsername)
+							NavigationWidget.switchToContainer(this, new AdminForm(context))
+						}
+					}
+				}
+				if adminUsername == "" && adminPassword == "" {
+					context.showMessageDialog("Notice","Admin Account Not Found")
+				}
+			}
 			
 	})
+})
+
 	 var backbtn = ButtonWidget.forText(context, "Back To Menu", func {	
 			NavigationWidget.switchToContainer(this, new HomeWidget(context))
 
 	})
 
-	loginbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	loginbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	loginbtn.setWidgetTextColor(Color.white())
 	loginbtn.setWidgetFontSize(context.getHeightValue("4mm"))
-	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	backbtn.setWidgetTextColor(Color.white())
 	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
 	vbox.addWidget(loginbtn)

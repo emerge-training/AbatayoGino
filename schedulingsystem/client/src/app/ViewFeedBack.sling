@@ -11,7 +11,7 @@ ui LayerWidget
 	}
 	VerticalScrollerWidget {
 		ImageWidget image {
-			imageResource = "sample1"
+			imageResource = "sample"
 			imageWidth = context.getHeightValue("1150px")
 			imageHeight = context.getHeightValue("820px")
 			imageScaleMethod = ImageWidget.FIT
@@ -43,6 +43,13 @@ ui LayerWidget
 					fontSize = context.getHeightValue("3mm")
 					padding = context.getHeightValue("2500um")
 				}
+				TextInputWidget feedback {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Your Feedback"
+					backgroundColor = Color.instance("#b0b0b0")
+					fontSize = context.getHeightValue("1mm")
+					padding = context.getHeightValue("7000um")
+				}
 			}
 		}
 	}
@@ -50,35 +57,19 @@ ui LayerWidget
 
 func initializeWidget override
 {
-	var message = new TextAreaWidget(context)
-	message.setWidgetText("")
-	message.setWidgetRows(5)
-	message.setWidgetPadding(context.getHeightValue("2500um"))
-	message.setWidgetPlaceholder(" ")
-	message.setWidgetMaxLength(100)
-    message.setWidgetBackgroundColor(Color.instance("#FFC0CB"))
-	vbox.addWidget(message)
 	var viewbtn = ButtonWidget.forText(context, "View", func {
 		
 	})
-		base.initializeWidget()
     var backbtn = ButtonWidget.forText(context, "Back To Admin Form", func {
 			NavigationWidget.switchToContainer(this, new AdminForm(context))
 	})
-	viewbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	viewbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	viewbtn.setWidgetTextColor(Color.white())
 	viewbtn.setWidgetFontSize(context.getHeightValue("3mm"))
 	vbox.addWidget(viewbtn)
-	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetBackgroundColor(Color.instance("#264653"))
 	backbtn.setWidgetTextColor(Color.white())
 	backbtn.setWidgetFontSize(context.getHeightValue("3mm"))
 	vbox.addWidget(backbtn)
-}
-
-func getMessage(str as string) as Widget
-{
-	var msg = new LabelWidget(context)
-	msg.setWidgetText(str)
-	return msg
 }
 
