@@ -1,0 +1,94 @@
+import jk.widget.common
+
+class #widget #main:
+
+model Task
+{
+	id as string
+	name as string
+    description as string
+    timeStampAdded as long
+    timeStampLastUpdated as long
+}
+
+ui LayerWidget
+{
+	CanvasWidget {
+		color = Color.instance("#949796")
+	}
+		AlignWidget {
+	VerticalBoxWidget {
+		spacing = context.getHeightValue("5mm")
+	}
+			VerticalBoxWidget vbox {
+				margin = context.getHeightValue("35000um")
+				spacing = context.getHeightValue("800um")
+				LabelWidget {
+					text = "Add Tasklist"
+					textColor = Color.black()
+					fontSize = context.getHeightValue("8mm")
+					textAlign = LabelWidget.ALIGN_CENTER
+					fontBold = true
+				}
+				TextInputWidget id {
+					type = TextInputWidget.TYPE_INTEGER
+				placeholder = "ID"
+				backgroundColor = Color.white()
+				fontSize = context.getHeightValue("2mm")
+				padding = context.getHeightValue("2500um")
+			}
+				TextInputWidget name {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Name"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}	
+				TextInputWidget description {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Description"
+					backgroundColor = Color.white()
+					fontSize = context.getHeightValue("2mm")
+					padding = context.getHeightValue("2500um")
+				}										
+			}
+		}
+}
+
+func initializeWidget override
+{
+
+	base.initializeWidget()
+	var addbtn = ButtonWidget.forText(context, "Add Tasklist", func{
+		var task = new Task()
+		task.setId(id.getWidgetText())
+		task.setName(name.getWidgetText())
+		task.setDescription(description.getWidgetText())
+		
+		APIClient.getInstance().addTask(task.toDynamicMap(), func(res as DynamicMap){
+			context.showMessageDialog("Notice", "Successfully Add Tasklist")
+			id.setWidgetText("")
+			name.setWidgetText("")
+			description.setWidgetText("")
+			
+		}, func(err as Error){
+			context.showMessageDialog("Notice", "Failed to Add Tasklist")
+		})
+	})
+
+	var backbtn = ButtonWidget.forText(context, "Back To Menu", func{
+		NavigationWidget.switchToContainer(this, new HomeWidget(context))
+	})
+
+	addbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	addbtn.setWidgetTextColor(Color.white())
+	addbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+
+	backbtn.setWidgetBackgroundColor(Color.instance("#B6CAE3"))
+	backbtn.setWidgetTextColor(Color.white())
+	backbtn.setWidgetFontSize(context.getHeightValue("4mm"))
+
+	vbox.addWidget(addbtn)
+	vbox.addWidget(backbtn)
+	
+}
