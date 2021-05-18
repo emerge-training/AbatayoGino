@@ -5,11 +5,11 @@ class is WebServer:
 
 func initializeServer(server as HTTPServer) override as bool
 {
-    assert base.initializeServer(server)
-    server.setCreateOptionsResponseHandler(func(req as HTTPServerRequest) as HTTPServerResponse {
-        return TasklistConfig.getCorsUtil().handlePreflightRequest(req)
+    assert base.initializeServer (server)
+    server.setCreateOptionsResponseHandler(func(req as HTTPServerRequest)as HTTPServerResponse {
+            return TasklistConfig.getCorsUtil().handlePreflightRequest(req)
     })
-    return true
+    return true 
 }
 
 func initializeApplication override as bool
@@ -23,3 +23,4 @@ func initializeApplication override as bool
 
 main:
     return new this().setWorker(typeinfo TasklistApiHandler).executeMain(args)
+    

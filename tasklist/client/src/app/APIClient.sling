@@ -14,7 +14,7 @@ func create(context as GuiApplicationContext, parentWidget as Widget = null) sta
 {
     assert context
     instance = new this()
-    instance.setApiUrl("http://ec2-13-212-36-33.ap-southeast-1.compute.amazonaws.com:30038")
+    instance.setApiUrl("http://ec2-54-255-198-53.ap-southeast-1.compute.amazonaws.com:30140")
     instance.setContext(context)
     if parentWidget:
         instance.setParentWidget(parentWidget)
@@ -38,7 +38,7 @@ func onDefaultErrorHandler(error as Error) override
 }
 
 func addTask(data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
-    doPost("/task", data, callback, errorCallback)
+    doPost("/task/", data, callback,errorCallback)
 
 func updateTask(id as string, data as DynamicMap, callback as function<void, DynamicMap>, errorCallback as function<void, Error>):
     doPut("/task/" .. id, data, callback, errorCallback)
@@ -47,4 +47,6 @@ func deleteTask(id as string, callback as function<void, DynamicMap>, errorCallb
     doDelete("/task/" .. id, callback, errorCallback)
 
 func getTasks(callback as function<void, DynamicMap>, errorCallback as function<void, Error> = null):
-    doGet("/tasks", callback, errorCallback)
+    doGet("/task/", callback, errorCallback)
+
+    

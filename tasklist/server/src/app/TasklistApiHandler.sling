@@ -24,13 +24,13 @@ func getDatabase as TasklistDatabase
 func postProcess(req as HTTPWorkerRequest, resp as HTTPWorkerResponse) override:
     cors.handleWorkerRequest(req, resp)
 
-GET "/tasks"
+GET "/task/"
 {
     var tasks = assert getDatabase().getTasks()
     sendOk tasks
 }
 
-POST "/task"
+POST "/task/"
 {
     var requestData = assert TaskRequest.forJsonString(req.getBodyString()):
         sendError "invalidRequest"
@@ -44,7 +44,7 @@ POST "/task"
 
 PUT "/task/:id"
 {
-    var requestData = assert TaskRequest.forJsonString(req.getBodyString()):
+    var requestData = assert TaskRequest.forJsonString(req.getBodyString())
         sendError "invalidRequest"
     var task = new TasklistDatabase.Task()
     task.setName(requestData.getName())
@@ -55,7 +55,7 @@ PUT "/task/:id"
 }
 
 DELETE "/task/:id"
-{   
+{
     assert getDatabase().deleteTask(vars.getString("id")):
         sendError "failedToDeleteTask"
     sendOk
