@@ -52,6 +52,18 @@ class name app.NoteListApp header extends jk.widget.VerticalBoxWidget public #wi
 	func onDeleteClicked
 	func createWidget override
 }
+class name app.HomeWidget header extends jk.widget.LayerWidget public #widget
+{
+	import jk.lang
+	import jk.lang
+	import jk.ui
+	import jk.gfx
+	import jk.widget
+	import jk.widget.common
+	ctor(context as jk.ui.GuiApplicationContext)
+	func initializeWidget override
+	func createWidget override
+}
 class name app.DeleteNote header extends jk.widget.VerticalBoxWidget public #widget
 {
 	import jk.lang

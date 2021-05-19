@@ -258,7 +258,7 @@ AppAPIClient.create = function(context, parentWidget) {
 		return null;
 	}
 	AppAPIClient.instance = AppAPIClient.NEW();
-	AppAPIClient.instance.setApiUrl("http://ec2-54-255-218-178.ap-southeast-1.compute.amazonaws.com:30020");
+	AppAPIClient.instance.setApiUrl("http://ec2-54-255-218-178.ap-southeast-1.compute.amazonaws.com:30100");
 	AppAPIClient.instance.setContext(context);
 	if(parentWidget != null) {
 		AppAPIClient.instance.setParentWidget(parentWidget);
@@ -454,6 +454,71 @@ AppDeleteNote.IS_INSTANCE = function(o) {
 	return o != null && o._t != null && o._t["AppDeleteNote"] === true;
 };
 
+let AppHomeWidget = function() {
+	JkWidgetLayerWidget.call(this);
+	this.image = null;
+	this.menu = null;
+};
+
+AppHomeWidget.prototype = (function(o) { function F() {}; F.prototype = o; return(new F()); }) (JkWidgetLayerWidget.prototype);
+AppHomeWidget.prototype.constructor = AppHomeWidget;
+AppHomeWidget.prototype._t = {
+	"AppHomeWidget" : true,
+	"JkWidgetParentAwareWidget" : true,
+	"JkWidgetHeightAwareWidget" : true,
+	"JkWidgetWidget" : true,
+	"JkWidgetLayerWidget" : true,
+	"JkWidgetContainerWidget" : true,
+	"JkWidgetWidgetWithLayout" : true
+};
+AppHomeWidget.prototype._tobj = AppHomeWidget;
+
+AppHomeWidget.NEW_JkUiGuiApplicationContext = function(context) {
+	var v = new AppHomeWidget;
+	return v.CTOR_AppHomeWidget_JkUiGuiApplicationContext(context);
+};
+
+AppHomeWidget.prototype.CTOR_AppHomeWidget_JkUiGuiApplicationContext = function(context) {
+	this.menu = null;
+	this.image = null;
+	if(JkWidgetLayerWidget.prototype.CTOR_JkWidgetLayerWidget_JkUiGuiApplicationContext.call(this, context) == null) {
+		return null;
+	}
+	return this;
+};
+
+AppHomeWidget.prototype.initializeWidget = function() {
+	JkWidgetLayerWidget.prototype.initializeWidget.call(this);
+	var file = this.menu.addMenu("Main Menu", null);
+	file.addEntry2("NoteListApp", (function() {
+		JkWidgetCommonNavigationWidget.switchToContainer(this, (AppNoteListApp.NEW_JkUiGuiApplicationContext(this.context)));
+	}.bind(this)));
+};
+
+AppHomeWidget.prototype.createWidget = function() {
+	JkWidgetLayerWidget.prototype.createWidget.call(this);
+	var thisWidget = this;
+	var widget = JkWidgetCanvasWidget.NEW_JkUiGuiApplicationContext(this.context);
+	widget.setWidgetColor((JkGfxColor.forString("#FFFFFF")));
+	this.addWidget(widget);
+	this.image = JkWidgetImageWidget.NEW_JkUiGuiApplicationContext(this.context);
+	this.image.setWidgetImageResource("sample1");
+	this.image.setWidgetImageWidth((this.context.getHeightValue("1390px")));
+	this.image.setWidgetImageHeight((this.context.getHeightValue("1500px")));
+	this.image.setWidgetImageScaleMethod(JkWidgetImageWidget.FIT);
+	this.addWidget(this.image);
+	var widget2 = JkWidgetVerticalBoxWidget.NEW_JkUiGuiApplicationContext(this.context);
+	widget2.setWidgetMargin(0);
+	widget2.setWidgetSpacing(0);
+	this.menu = JkWidgetCommonMenuBarWidget.NEW_JkUiGuiApplicationContext(this.context);
+	widget2.addWidget(this.menu);
+	this.addWidget(widget2);
+};
+
+AppHomeWidget.IS_INSTANCE = function(o) {
+	return o != null && o._t != null && o._t["AppHomeWidget"] === true;
+};
+
 let AppNoteListApp = function() {
 	JkWidgetVerticalBoxWidget.call(this);
 	this.btnAdd = null;
@@ -641,7 +706,7 @@ AppMainScreen.prototype.initialize = function() {
 	this.navi.setWidgetEnableActionBar(false);
 	this.setWidget(this.navi);
 	AppAPIClient.create(this.context, this.navi);
-	this.navi.pushWidget((AppNoteListApp.NEW_JkUiGuiApplicationContext(this.context)));
+	this.navi.pushWidget((AppHomeWidget.NEW_JkUiGuiApplicationContext(this.context)));
 };
 
 AppMainScreen.main = function(args) {
