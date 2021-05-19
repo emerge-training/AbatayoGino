@@ -41872,7 +41872,7 @@ function app.NoteListAppConfig:getAllowedOrigins()
 	do return {
 		"http://localhost:8080",
 		"http://localhost:8081",
-		"http://ec2-54-255-218-178.ap-southeast-1.compute.amazonaws.com:30101"
+		"http://ec2-54-255-218-178.ap-southeast-1.compute.amazonaws.com:30105"
 	} end
 end
 

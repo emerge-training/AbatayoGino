@@ -258,7 +258,7 @@ AppAPIClient.create = function(context, parentWidget) {
 		return null;
 	}
 	AppAPIClient.instance = AppAPIClient.NEW();
-	AppAPIClient.instance.setApiUrl("http://ec2-54-255-218-178.ap-southeast-1.compute.amazonaws.com:30100");
+	AppAPIClient.instance.setApiUrl("http://ec2-54-255-218-178.ap-southeast-1.compute.amazonaws.com:30106");
 	AppAPIClient.instance.setContext(context);
 	if(parentWidget != null) {
 		AppAPIClient.instance.setParentWidget(parentWidget);
