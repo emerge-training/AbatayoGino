@@ -1,0 +1,104 @@
+import jk.widget.common
+import jk.widget.datagrid
+
+class #widget:
+
+
+
+ui VerticalBoxWidget
+{
+   spacing = context.getHeightValue("2500um")
+            marginTop = 100
+            marginRight = 500
+            marginLeft = 500
+    HorizontalBoxWidget {
+        spacing = context.getHeightValue("100um")
+        TextButtonWidget btnAdd : 1.0 {
+            text = "ADD NOTE"
+            padding = context.getHeightValue("1000um")
+            backgroundColor = Color.instance("#264653")
+            clickHandler = func {
+                onViewClicked()
+            }
+        
+        }
+          TextButtonWidget btnUpdate : 1.0 {
+            text = "UPDATE NOTE"
+            padding = context.getHeightValue("1000um")
+            backgroundColor = Color.instance("#264653")
+            clickHandler = func {
+                onUpdateClicked()
+            }
+          }
+           TextButtonWidget btnDelete : 1.0 {
+            text = "DELETE NOTE"
+            padding = context.getHeightValue("1000um")
+            backgroundColor = Color.instance("#264653")
+            clickHandler = func {
+                onDeleteClicked()
+            }
+        
+        }
+    
+    }
+    VerticalScrollerWidget {
+		scrollBarDisabled = true
+		LayerWithBackgroundColorWidget container {
+            color = Color.instance("#264653")
+		AlignWidget {
+			VerticalBoxWidget vbox : 0.5, 0.5, false {
+				margin = context.getHeightValue("20000um")
+				spacing = context.getHeightValue("2000um") 
+                LabelWidget {
+					text = "NOTE LIST"
+					textColor = Color.black()
+					fontSize = context.getHeightValue("5mm")
+					textAlign = LabelWidget.ALIGN_CENTER
+					fontBold = true
+				}  
+            } 
+        }
+        DataGridWidget grid{
+                    cellPadding = 1
+        }
+    }
+    }
+}
+
+func initializeWidget override
+{
+    base.initializeWidget()
+
+	
+	grid.addColumn("ID", "id", 3.0)
+	grid.addColumn("Note", "note", 3.0)
+	grid.addColumn("Description", "description", 3.0)
+  
+
+	grid.addWidgetHeaderRow()
+    APIClient.getInstance().getNotelist(func(response as DynamicMap){
+        var data = assert response.getDynamicMap("data")
+        var records = data.getDynamicVector("records")
+        if not records || records.getSize() < 1{
+            grid.addRow([ "No NOte!" ])
+        }
+        else {
+            foreach record as DynamicMap in records.toVector() {
+                
+                grid.addRow([ record.getString("id"), record.getString("note"), record.getString("description") ])
+            }
+        }
+    },func(err as Error){
+        grid.addRow([ "Error" ])
+    })
+}
+
+func onViewClicked:
+    NavigationWidget.switchToContainer(this, new AddNote(context))
+func onUpdateClicked:
+    NavigationWidget.switchToContainer(this, new UpdateNote(context))
+
+func onDeleteClicked:
+    NavigationWidget.switchToContainer(this, new DeleteNote(context))
+
+    

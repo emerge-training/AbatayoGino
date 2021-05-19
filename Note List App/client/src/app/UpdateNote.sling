@@ -1,0 +1,106 @@
+import jk.widget
+import jk.widget.common
+
+class #widget:
+
+model Note
+{
+	note as string
+    description as string
+}
+
+ui VerticalBoxWidget
+{
+	spacing = context.getHeightValue("2500um")
+            marginTop = 100
+            marginRight = 500
+            marginLeft = 500
+    HorizontalBoxWidget {
+        spacing = context.getHeightValue("100um")
+        TextButtonWidget btnHome : 1.0 {
+            text = "VIEW NOTE LIST"
+            padding = context.getHeightValue("1000um")
+            backgroundColor = Color.instance("#264653")
+            clickHandler = func {
+                onViewClicked()
+            }
+        }
+		
+    }
+	VerticalScrollerWidget {
+		scrollBarDisabled = true
+		LayerWithBackgroundColorWidget container {
+            color = Color.instance("#264653")
+		AlignWidget {
+			VerticalBoxWidget vbox : 0.5, 0.5, false {
+				margin = context.getHeightValue("5mm")
+				spacing = context.getHeightValue("2000um")
+				LabelWidget {
+					text = "UPDATE NOTE"
+					textColor = Color.black()
+					fontSize = context.getHeightValue("4mm")
+					textAlign = LabelWidget.ALIGN_CENTER
+					fontBold = true
+				}
+                TextInputWidget id {
+					type = TextInputWidget.TYPE_INTEGER
+					placeholder = "PLEASE INPUT THE ID YOU WANT TO UPDATE"
+					backgroundColor = Color.black()
+					fontSize = context.getHeightValue("4mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget note {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "Note"
+					backgroundColor = Color.black()
+					fontSize = context.getHeightValue("4mm")
+					padding = context.getHeightValue("2500um")
+				}
+				TextInputWidget description {
+					type = TextInputWidget.TYPE_NAME
+					placeholder = "DESCRIPTION"
+					backgroundColor = Color.black()
+					fontSize = context.getHeightValue("4mm")
+					padding = context.getHeightValue("2500um")
+				}
+			}
+		}
+		}
+	}
+}
+func onViewClicked:
+	NavigationWidget.switchToContainer(this, new NoteListApp(context))
+
+func initializeWidget override
+{
+	base.initializeWidget()
+	var updatebtn = ButtonWidget.forText(context, "SUBMIT", func {
+		APIClient.getInstance().getNotelist(func(response as DynamicMap){
+			var data = assert response.getDynamicMap("data")
+			var records = data.getDynamicVector("records")
+			foreach record as DynamicMap in records.toVector(){
+				if record.getString("id") == id.getWidgetText(){
+					var notelist = new Note()
+					var popup = new PopupDialogManager(context, this)
+					popup.showConfirmDialog("Confirmation","Continue to Update Note?", func{
+						notelist.setNote(note.getWidgetText())
+						notelist.setDescription(description.getWidgetText())
+						APIClient.getInstance().update(id.getWidgetText(), notelist.toDynamicMap(), func(res as DynamicMap){
+							context.showMessageDialog("Notice", "Successfully updated!")
+							id.setWidgetText("")
+							note.setWidgetText("")
+							description.setWidgetText("")
+							}, func(err as Error){
+								context.showMessageDialog("Notice", "Failed!")
+							})
+						}, func{
+							;
+						})
+				}
+			}
+		})
+})
+	updatebtn.setWidgetFontSize(context.getHeightValue("4mm"))
+	vbox.addWidget(updatebtn)
+}
+
